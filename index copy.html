@@ -11,34 +11,29 @@
             box-sizing: border-box;
         }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;   /* ❌ remove quotes */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: '100vh';
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-.container {
-    width: 100%;
-    max-width: 450px;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-}
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
 
-
-.login-card {
-    width: 100%;
-    background: white;
-    border-radius: 16px;
-    padding: 40px;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-    animation: slideIn 0.5s ease-out;
-}
-
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
 
         @keyframes slideIn {
             from {
@@ -378,7 +373,9 @@ body {
             <div class="skull">☠️</div>
             <h1 class="hacked-title">SYSTEM HACKED!</h1>
             <p class="hacked-message">⚠️ YOUR DATA HAS BEEN COMPROMISED ⚠️</p>
-            <p class="hacked-message">All your files are being encrypted...</p> 
+            <p class="hacked-message">All your files are being encrypted...</p>
+            
+          
         </div>
     </div>
 
@@ -391,10 +388,6 @@ body {
 </div>
 
     <script>
-        let audioContext = null;
-let oscillator = null;
-let alarmTimeout = null;
-
         // Form validation and submission
         const loginForm = document.getElementById('loginForm');
         const mobileInput = document.getElementById('mobile');
@@ -427,73 +420,35 @@ let alarmTimeout = null;
             showHackedScreen();
         });
 
-function stopAlarmSound() {
-    if (alarmTimeout) {
-        clearInterval(alarmTimeout);
-        alarmTimeout = null;
-    }
+// function showHackedScreen() {
+//     // Hide login section
+//     loginSection.style.display = 'none';
 
-    if (oscillator) {
-        oscillator.stop();
-        oscillator.disconnect();
-        oscillator = null;
-    }
+//     // Show hacked screen
+//     hackedScreen.classList.add('active');
 
-    if (audioContext) {
-        audioContext.close();
-        audioContext = null;
-    }
-}
+//     // Request fullscreen
+//     const requestFs =
+//         hackedScreen.requestFullscreen ||
+//         hackedScreen.webkitRequestFullscreen ||
+//         hackedScreen.msRequestFullscreen;
 
-async function activateLock() {
-      // await document.documentElement.requestFullscreen();
+//     if (requestFs) {
+//         requestFs.call(hackedScreen).then(() => {
+//             // ⏱ Exit fullscreen after 30 seconds
+//             setTimeout(exitFullscreenSafely, 30000);
+//         }).catch(err => {
+//             console.log("Fullscreen failed:", err);
+//         });
+//     }
+    
 
-      if (navigator.keyboard?.lock) {
-        try {
-          await navigator.keyboard.lock([
-            "Escape",
-            "Tab",
-            "MetaLeft",
-            "MetaRight",
-            "AltLeft",
-            "AltRight",
-            "ControlLeft",
-            "ControlRight",
-            "F1",
-            "F2",
-            "F3",
-            "F4",
-            "F5",
-            "F6",
-            "F7",
-            "F8",
-            "F9",
-            "F10",
-            "F11",
-            "F12",
-          ]);
-          console.log("Keyboard locked");
-        } catch (e) {
-          /* ========== Key Block ========== */
-          document.addEventListener("keydown", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          });
-
-          document.addEventListener("keyup", (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          });
-
-          window.oncontextmenu = () => false;
-
-          console.log("Keyboard lock failed");
-        }
-      }
-    }
+//     playAlarmSound();
+//     startMatrix();
+//     setTimeout(rewriteToAlert, 10000);
+// }
 
 function showHackedScreen() {
-    activateLock()
     loginSection.style.display = 'none';
     hackedScreen.classList.add('active');
 
@@ -525,9 +480,7 @@ function showAlertScreen() {
 }
 
       
-function exitFullscreenSafely() {
-    stopAlarmSound(); // 🔇 STOP SOUND
-
+       function exitFullscreenSafely() {
     if (document.fullscreenElement) {
         document.exitFullscreen();
     } else if (document.webkitFullscreenElement) {
@@ -537,32 +490,40 @@ function exitFullscreenSafely() {
     }
 }
 
-
-function playAlarmSound() {
-    if (audioContext) return; // prevent multiple instances
-
-    audioContext = new (window.AudioContext || window.webkitAudioContext)();
-
-    oscillator = audioContext.createOscillator();
-    const gainNode = audioContext.createGain();
-
-    oscillator.connect(gainNode);
-    gainNode.connect(audioContext.destination);
-
-    oscillator.type = 'square';
-    oscillator.frequency.value = 800;
-    gainNode.gain.value = 0.3;
-
-    oscillator.start();
-
-    // Frequency pattern
-    let toggle = true;
-    alarmTimeout = setInterval(() => {
-        if (!hackedScreen.classList.contains('active')) return;
-        oscillator.frequency.setValueAtTime(toggle ? 800 : 600, audioContext.currentTime);
-        toggle = !toggle;
-    }, 200);
-}
+        // Web Audio API - Generate alarm sound
+        function playAlarmSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create oscillator for alarm sound
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'square';
+            oscillator.frequency.value = 800;
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            
+            // Alarm pattern
+            let time = audioContext.currentTime;
+            for (let i = 0; i < 6; i++) {
+                oscillator.frequency.setValueAtTime(800, time);
+                oscillator.frequency.setValueAtTime(600, time + 0.1);
+                time += 0.2;
+            }
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 1.2);
+            
+            // Repeat alarm
+            setTimeout(() => {
+                if (hackedScreen.classList.contains('active')) {
+                    playAlarmSound();
+                }
+            }, 2000);
+        }
 
         // Matrix rain effect
         function startMatrix() {
