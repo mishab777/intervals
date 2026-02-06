@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Portal - International Internet Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo h1 {
+            color: #1e40af;
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .logo p {
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        .badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            color: #374151;
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        input.error {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 12px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 12px;
+        }
+
+        /* Hacked Screen Styles */
+        .hacked-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .hacked-screen.active {
+            display: block;
+            animation: glitchBg 0.3s infinite;
+        }
+
+        @keyframes glitchBg {
+            0%, 100% { background: #000; }
+            25% { background: #0a0a0a; }
+            50% { background: #1a0000; }
+            75% { background: #000a00; }
+        }
+
+        .hacked-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            width: 90%;
+            max-width: 800px;
+        }
+
+        .skull {
+            font-size: 120px;
+            margin-bottom: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hacked-title {
+            color: #dc2626;
+            font-size: 72px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: glitch 1s infinite;
+            text-shadow: 
+                3px 3px 0 #ff0000,
+                -3px -3px 0 #00ff00,
+                3px -3px 0 #0000ff;
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-5px, 5px); }
+            40% { transform: translate(-5px, -5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(5px, -5px); }
+            100% { transform: translate(0); }
+        }
+
+        .hacked-message {
+            color: #ef4444;
+            font-size: 24px;
+            margin-bottom: 30px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50%, 100% { opacity: 1; }
+            25%, 75% { opacity: 0.5; }
+        }
+
+        .warning-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 2px solid #dc2626;
+            border-radius: 12px;
+            padding: 30px;
+            margin-top: 40px;
+            animation: fadeIn 2s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .warning-box h2 {
+            color: #fbbf24;
+            font-size: 28px;
+            margin-bottom: 15px;
+        }
+
+        .warning-box p {
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .warning-box ul {
+            text-align: left;
+            color: #fff;
+            margin: 20px auto;
+            max-width: 600px;
+            list-style-position: inside;
+        }
+
+        .warning-box li {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .close-btn {
+            margin-top: 30px;
+            padding: 12px 40px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-btn:hover {
+            background: #b91c1c;
+        }
+
+        .matrix {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .hacked-title {
+                font-size: 48px;
+            }
+            .hacked-message {
+                font-size: 18px;
+            }
+            .skull {
+                font-size: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Section -->
+    <div class="container" id="loginSection">
+        <div class="login-card">
+            <div class="logo">
+                <h1>🌐 Employee Portal</h1>
+                <p>Secure Access System</p>
+            </div>
+            <div style="text-align: center;">
+                <span class="badge">🔒 International Internet Day - Security Check</span>
+            </div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="mobile">Employee Mobile Number</label>
+                    <input 
+                        type="tel" 
+                        id="mobile" 
+                        placeholder="Enter 10-digit mobile number"
+                        maxlength="10"
+                        autocomplete="off"
+                    >
+                    <div class="error-message" id="errorMessage">
+                        Please enter a valid 10-digit mobile number
+                    </div>
+                </div>
+                <button type="submit" class="btn">Send OTP</button>
+            </form>
+            <p class="footer-text">
+                Celebrating International Internet Day 🎉<br>
+                Stay safe online!
+            </p>
+        </div>
+    </div>
+
+    <!-- Hacked Screen -->
+    <div class="hacked-screen" id="hackedScreen">
+        <canvas class="matrix" id="matrixCanvas"></canvas>
+        <div class="hacked-content">
+            <div class="skull">☠️</div>
+            <h1 class="hacked-title">SYSTEM HACKED!</h1>
+            <p class="hacked-message">⚠️ YOUR DATA HAS BEEN COMPROMISED ⚠️</p>
+            <p class="hacked-message">All your files are being encrypted...</p>
+            
+            <div class="warning-box">
+                <h2>🎯 THIS WAS A MOCK DRILL!</h2>
+                <p><strong>Congratulations! You've just participated in our International Internet Day Security Awareness Training.</strong></p>
+                <p>This was a simulated phishing attack to demonstrate how easily cybercriminals can trick employees.</p>
+                
+                <ul>
+                    <li>✅ Never share OTPs or passwords via unofficial links</li>
+                    <li>✅ Always verify the sender's identity before clicking links</li>
+                    <li>✅ Check for HTTPS and legitimate domain names</li>
+                    <li>✅ Report suspicious emails to IT security immediately</li>
+                    <li>✅ Enable two-factor authentication on all accounts</li>
+                    <li>✅ Keep your software and systems updated</li>
+                </ul>
+                
+                <p style="margin-top: 20px;"><strong>Remember: Think before you click!</strong></p>
+                <p>Stay vigilant and protect our company's digital assets.</p>
+                
+                <button class="close-btn" onclick="closeHackedScreen()">I Understand - Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and submission
+        const loginForm = document.getElementById('loginForm');
+        const mobileInput = document.getElementById('mobile');
+        const errorMessage = document.getElementById('errorMessage');
+        const loginSection = document.getElementById('loginSection');
+        const hackedScreen = document.getElementById('hackedScreen');
+
+        // Allow only numbers
+        mobileInput.addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        });
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const mobile = mobileInput.value.trim();
+            
+            // Validate 10-digit mobile number
+            if (mobile.length !== 10 || !/^\d{10}$/.test(mobile)) {
+                mobileInput.classList.add('error');
+                errorMessage.classList.add('show');
+                return;
+            }
+            
+            // Clear error
+            mobileInput.classList.remove('error');
+            errorMessage.classList.remove('show');
+            
+            // Trigger hacked screen
+            showHackedScreen();
+        });
+
+        function showHackedScreen() {
+            // Hide login section
+            loginSection.style.display = 'none';
+            
+            // Show hacked screen
+            hackedScreen.classList.add('active');
+            
+            // Request fullscreen
+            if (hackedScreen.requestFullscreen) {
+                hackedScreen.requestFullscreen();
+            } else if (hackedScreen.webkitRequestFullscreen) {
+                hackedScreen.webkitRequestFullscreen();
+            } else if (hackedScreen.msRequestFullscreen) {
+                hackedScreen.msRequestFullscreen();
+            }
+            
+            // Play alarm sound
+            playAlarmSound();
+            
+            // Start matrix effect
+            startMatrix();
+        }
+
+        function closeHackedScreen() {
+            // Exit fullscreen
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen();
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen();
+            }
+            
+            // Hide hacked screen
+            hackedScreen.classList.remove('active');
+            
+            // Show login section again
+            loginSection.style.display = 'flex';
+            
+            // Reset form
+            loginForm.reset();
+        }
+
+        // Web Audio API - Generate alarm sound
+        function playAlarmSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            
+            // Create oscillator for alarm sound
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            oscillator.type = 'square';
+            oscillator.frequency.value = 800;
+            
+            gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+            
+            // Alarm pattern
+            let time = audioContext.currentTime;
+            for (let i = 0; i < 6; i++) {
+                oscillator.frequency.setValueAtTime(800, time);
+                oscillator.frequency.setValueAtTime(600, time + 0.1);
+                time += 0.2;
+            }
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 1.2);
+            
+            // Repeat alarm
+            setTimeout(() => {
+                if (hackedScreen.classList.contains('active')) {
+                    playAlarmSound();
+                }
+            }, 2000);
+        }
+
+        // Matrix rain effect
+        function startMatrix() {
+            const canvas = document.getElementById('matrixCanvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            
+            const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+            const fontSize = 14;
+            const columns = canvas.width / fontSize;
+            const drops = Array(Math.floor(columns)).fill(1);
+            
+            function draw() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                ctx.fillStyle = '#0f0';
+                ctx.font = fontSize + 'px monospace';
+                
+                for (let i = 0; i < drops.length; i++) {
+                    const text = chars[Math.floor(Math.random() * chars.length)];
+                    ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                    
+                    if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                        drops[i] = 0;
+                    }
+                    drops[i]++;
+                }
+            }
+            
+            const matrixInterval = setInterval(() => {
+                if (!hackedScreen.classList.contains('active')) {
+                    clearInterval(matrixInterval);
+                    return;
+                }
+                draw();
+            }, 33);
+        }
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            const canvas = document.getElementById('matrixCanvas');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>
