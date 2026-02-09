@@ -331,6 +331,7 @@ body {
         #line4 { animation-delay: 2.5s; }
         #line5 { animation-delay: 3.5s; }
         #line6 { animation-delay: 4.5s; }
+        #line7 {animation-delay: 5.5s;}
 
         @keyframes reveal {
             to { opacity: 1; }
@@ -388,6 +389,11 @@ body {
     <div class="msg" id="line4">Think before you click.</div>
     <div class="msg" id="line5">One careless click is all it takes.</div>
     <div class="msg" id="line6"><br>Happy Safer Internet Day!</div>
+    <div class="msg" id="line7">
+        An awareness initiative by the <strong>Creative Team</strong><br/>
+in collaboration with the <strong>Technical Team</strong><br/>
+<strong>Team Interval</strong>
+    </div>
 </div>
 
     <script>
@@ -510,10 +516,10 @@ function showHackedScreen() {
     startMatrix();
 
     // ⏱ Change content after 10 seconds
-    setTimeout(showAlertScreen, 10000);
+    setTimeout(showAlertScreen, 5000);
 
     // ⏱ Exit fullscreen after 30 seconds
-    setTimeout(exitFullscreenSafely, 18000);
+    setTimeout(exitFullscreenSafely, 13000);
 }
 
 
